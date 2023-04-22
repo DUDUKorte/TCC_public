@@ -17,16 +17,20 @@ except:
 def addFace(name, pathImage):
     global known_faces
 
-    image = face_recognition.load_image_file(pathImage)
-    face_encoding = face_recognition.face_encodings(image)[0]
-    print(type(face_encoding))
-    #known_faces = np.append(known_faces, face_encoding)
-    _known_faces = np.concatenate((known_faces, np.expand_dims(face_encoding, axis = 0)), axis = 0)
-    known_names.append(name)
-    print(_known_faces)
-    
-    np.savetxt('./reconhecimentoTempoReal/faces.txt', _known_faces)
+    if name in known_names:
+        print("já foi registrado")
+        
+    else:
+        image = face_recognition.load_image_file(pathImage)
+        face_encoding = face_recognition.face_encodings(image)[0]
+        print(type(face_encoding))
+        #known_faces = np.append(known_faces, face_encoding)
+        _known_faces = np.concatenate((known_faces, np.expand_dims(face_encoding, axis = 0)), axis = 0)
+        known_names.append(name)
+        print(_known_faces)
+        
+        np.savetxt('./reconhecimentoTempoReal/faces.txt', _known_faces)
 
-    jsonNames = open('./reconhecimentoTempoReal/nomes.json', 'w')
-    json.dump(known_names, jsonNames)
-    jsonNames.close()
+        jsonNames = open('./reconhecimentoTempoReal/nomes.json', 'w')
+        json.dump(known_names, jsonNames)
+        jsonNames.close()
